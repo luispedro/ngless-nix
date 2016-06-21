@@ -25,8 +25,8 @@ mkDerivation {
   src = fetchFromGitHub {
     owner = "luispedro";
     repo = "ngless";
-    rev = "9c21913ee710119dfa1cb07098a00019dc35e98e";
-    sha256 = "12dqm5pa101vxn492b88j9an8la52l8m4sih2w1fsrgn1cz6aad8";
+    rev = "4049b807988aea915a6b15124d426175cd995b11";
+    sha256 = "1y6z62n67yvi38pmd2xzsdxrl1505jmgbh2p33kk8a9wn4qxcagn";
   };
   isLibrary = false;
   isExecutable = true;
