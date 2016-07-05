@@ -16,17 +16,14 @@
 , makeWrapper
 , pkgs
 }:
-let
-  isGHC8 = stdenv.lib.versionOlder "8.0" ghc.version;
-in
 mkDerivation {
   pname = "NGLess";
   version = "0.0.0";
   src = fetchFromGitHub {
     owner = "luispedro";
     repo = "ngless";
-    rev = "4049b807988aea915a6b15124d426175cd995b11";
-    sha256 = "1y6z62n67yvi38pmd2xzsdxrl1505jmgbh2p33kk8a9wn4qxcagn";
+    rev = "7ca531c752fb88f8a0df3dc2c86d979d09e10e87";
+    sha256 = "1rhzjjrp7j6fldj0z5ia0sr85lggwkvqzczlpsf97nmv8qv876ic";
   };
   isLibrary = false;
   isExecutable = true;
@@ -60,11 +57,6 @@ mkDerivation {
   ];
   configureFlags = "-f-embed";
   license = stdenv.lib.licenses.mit;
-
-  jailbreak = isGHC8;
-  # Work around a bug in jailbreak: https://github.com/peti/jailbreak-cabal/issues/11
-  patches = if isGHC8 then [ ./jailbreak-workaround.patch ] else null;
-
 
   prePatch = ''
     m4 NGLess.cabal.m4 > NGLess.cabal
