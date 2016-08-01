@@ -1,7 +1,7 @@
 { mkDerivation, aeson, ansi-terminal, async, base, bytestring
 , bzlib, bzlib-conduit, conduit, conduit-combinators, conduit-extra
 , configurator, containers, convertible, data-default, deepseq
-, directory, double-conversion, edit-distance, errors, extra
+, directory, double-conversion, edit-distance, either, errors, extra
 , file-embed, filemanip, filepath, hashable, hashtables
 , http-client, http-conduit, HUnit, IntervalMap, MissingH, mtl
 , network, old-locale, optparse-applicative, parallel, parsec
@@ -14,6 +14,7 @@
 # , fetchurl
 , fetchFromGitHub
 , makeWrapper
+, python
 , pkgs
 }:
 mkDerivation {
@@ -22,8 +23,8 @@ mkDerivation {
   src = fetchFromGitHub {
     owner = "luispedro";
     repo = "ngless";
-    rev = "7ca531c752fb88f8a0df3dc2c86d979d09e10e87";
-    sha256 = "1rhzjjrp7j6fldj0z5ia0sr85lggwkvqzczlpsf97nmv8qv876ic";
+    rev = "68e5a7782a0f33c5d443ffb9c610788bd21d7e53";
+    sha256 = "0qia3g0bs63fa3mk0ypyi1kmj3dw6nhk1sd39k88xyjcg4ah4cna";
   };
   isLibrary = false;
   isExecutable = true;
@@ -31,7 +32,7 @@ mkDerivation {
     aeson ansi-terminal async base bytestring bzlib bzlib-conduit
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
-    edit-distance errors extra file-embed filemanip filepath hashable
+    edit-distance either errors extra file-embed filemanip filepath hashable
     hashtables http-client http-conduit IntervalMap MissingH mtl
     network old-locale optparse-applicative parallel parsec primitive
     process random resourcet stm stm-chans stm-conduit strict tar
@@ -41,13 +42,14 @@ mkDerivation {
     pkgs.m4
     pkgs.samtools
     pkgs.bwa
+    python
     makeWrapper
   ];
   testHaskellDepends = [
     aeson ansi-terminal async base bytestring bzlib bzlib-conduit
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
-    edit-distance errors extra file-embed filemanip filepath hashable
+    edit-distance either errors extra file-embed filemanip filepath hashable
     hashtables http-client http-conduit HUnit IntervalMap MissingH mtl
     network old-locale optparse-applicative parallel parsec primitive
     process QuickCheck random resourcet stm stm-chans stm-conduit
