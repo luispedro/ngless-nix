@@ -1,4 +1,4 @@
-{ mkDerivation, aeson, ansi-terminal, async, base, bytestring
+{ mkDerivation, aeson, ansi-terminal, atomic-write, async, base, bytestring
 , bzlib, bzlib-conduit, conduit, conduit-combinators, conduit-extra
 , configurator, containers, convertible, data-default, deepseq
 , directory, double-conversion, edit-distance, either, errors, extra
@@ -11,7 +11,6 @@
 , test-framework-th, text, time, transformers, unix, vector
 , vector-algorithms, yaml, zlib
 , ghc
-# , fetchurl
 , fetchFromGitHub
 , makeWrapper
 , python
@@ -23,13 +22,13 @@ mkDerivation {
   src = fetchFromGitHub {
     owner = "luispedro";
     repo = "ngless";
-    rev = "bdbf7b845f25cd7bfd0f11eba5449f4a63285814";
-    sha256 = "1551adcal2456qikf4mdadh43rakrpdbljl9lh2qxgcgddxm1rdj";
+    rev = "65e89c21b143f3115ae142d47f8cf81b5f10805e";
+    sha256 = "1ln97pqapj5nvw6sm4zyy3h8jdc0myp0vh87vnhlcq3pmsk8fzhc";
   };
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
+    aeson ansi-terminal async atomic-write base bytestring bzlib bzlib-conduit
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
     edit-distance either errors extra file-embed filemanip filepath hashable
@@ -46,7 +45,7 @@ mkDerivation {
     makeWrapper
   ];
   testHaskellDepends = [
-    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
+    aeson ansi-terminal async atomic-write base bytestring bzlib bzlib-conduit
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
     edit-distance either errors extra file-embed filemanip filepath hashable
