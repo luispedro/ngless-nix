@@ -1,6 +1,8 @@
-{ mkDerivation, aeson, ansi-terminal, atomic-write, async, base, bytestring
-, bzlib, bzlib-conduit, conduit, conduit-combinators, conduit-extra
-, configurator, containers, convertible, data-default, deepseq
+{ mkDerivation
+, atomic-write, bytestring-lexing, gitrev, regex, safeio
+, aeson, ansi-terminal, async, base, bytestring
+, bzlib, bzlib-conduit, conduit, conduit-algorithms, conduit-combinators
+, conduit-extra, configurator, containers, convertible, data-default, deepseq
 , directory, double-conversion, edit-distance, either, errors, extra
 , file-embed, filemanip, filepath, hashable, hashtables
 , http-client, http-conduit, HUnit, IntervalMap, MissingH, mtl
@@ -11,6 +13,8 @@
 , test-framework-th, text, time, transformers, unix, vector
 , vector-algorithms, yaml, zlib
 , ghc
+, hpack
+# , fetchurl
 , fetchFromGitHub
 , makeWrapper
 , python
@@ -18,17 +22,19 @@
 }:
 mkDerivation {
   pname = "NGLess";
-  version = "0.0.0";
+  version = "0.5.0";
   src = fetchFromGitHub {
     owner = "luispedro";
     repo = "ngless";
-    rev = "65e89c21b143f3115ae142d47f8cf81b5f10805e";
-    sha256 = "1ln97pqapj5nvw6sm4zyy3h8jdc0myp0vh87vnhlcq3pmsk8fzhc";
+    rev = "d0499847703010f787f258e23fafd77cd8fc2419";
+    sha256 = "17w3yqcwk8v2ab0a0rlx22n43zg3v3qr3x84m0277rn89hg7d0gl";
   };
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    aeson ansi-terminal async atomic-write base bytestring bzlib bzlib-conduit
+    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
+    atomic-write bytestring-lexing gitrev regex safeio
+    conduit-algorithms
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
     edit-distance either errors extra file-embed filemanip filepath hashable
@@ -38,14 +44,15 @@ mkDerivation {
     template-haskell text time transformers unix vector
     vector-algorithms yaml zlib
     pkgs.wget
-    pkgs.m4
     pkgs.samtools
     pkgs.bwa
     python
     makeWrapper
   ];
   testHaskellDepends = [
-    aeson ansi-terminal async atomic-write base bytestring bzlib bzlib-conduit
+    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
+    atomic-write bytestring-lexing gitrev regex safeio
+    conduit-algorithms
     conduit conduit-combinators conduit-extra configurator containers
     convertible data-default deepseq directory double-conversion
     edit-distance either errors extra file-embed filemanip filepath hashable
@@ -60,9 +67,10 @@ mkDerivation {
   license = stdenv.lib.licenses.mit;
 
   prePatch = ''
-    m4 NGLess.cabal.m4 > NGLess.cabal
+    hpack
   '';
 
+  buildTools = [ hpack ];
 
   postBuild = ''
     make modules
