@@ -1,87 +1,97 @@
-{ mkDerivation
-, atomic-write, bytestring-lexing, gitrev, regex, safeio
-, aeson, ansi-terminal, async, base, bytestring
-, bzlib, bzlib-conduit, conduit, conduit-algorithms, conduit-combinators
-, conduit-extra, configurator, containers, convertible, data-default, deepseq
-, directory, double-conversion, edit-distance, either, errors, extra
-, file-embed, filemanip, filepath, hashable, hashtables
-, http-client, http-conduit, HUnit, IntervalMap, MissingH, mtl
-, network, old-locale, optparse-applicative, parallel, parsec
-, primitive, process, QuickCheck, random, resourcet, stdenv, stm
-, stm-chans, stm-conduit, strict, tar, template-haskell
-, test-framework, test-framework-hunit, test-framework-quickcheck2
-, test-framework-th, text, time, transformers, unix, vector
+{ mkDerivation, fetchFromGitHub, aeson, ansi-terminal, async, atomic-write
+, base , bytestring, bytestring-lexing, bzlib-conduit, conduit
+, conduit-algorithms, conduit-extra, configurator, containers
+, convertible, criterion, data-default, deepseq, diagrams-core
+, diagrams-lib, diagrams-svg, directory, double-conversion
+, edit-distance, either, errors, exceptions, extra, file-embed
+, filemanip, filepath, gitrev, hashable, hashtables, hostname
+, hpack, http-client, http-conduit, HUnit, inline-c, inline-c-cpp
+, IntervalMap, MissingH, mtl, network, optparse-applicative, parsec
+, primitive, process, QuickCheck, regex, resourcet, safe, safeio
+, stdenv, stm, stm-chans, stm-conduit, strict, tar, tar-conduit
+, template-haskell, test-framework, test-framework-hunit
+, test-framework-quickcheck2, test-framework-th, text, time
+, transformers, unix, unix-compat, unliftio, unliftio-core, vector
 , vector-algorithms, yaml, zlib
-, ghc
-, hpack
-# , fetchurl
-, fetchFromGitHub
-, makeWrapper
-, python
-, pkgs
 }:
-mkDerivation {
+mkDerivation rec {
   pname = "NGLess";
-  version = "0.5.0";
+  version = "1.0.1";
+
   src = fetchFromGitHub {
-    owner = "luispedro";
+    owner = "ngless-toolkit";
     repo = "ngless";
-    rev = "d0499847703010f787f258e23fafd77cd8fc2419";
-    sha256 = "17w3yqcwk8v2ab0a0rlx22n43zg3v3qr3x84m0277rn89hg7d0gl";
+    rev = "v${version}";
+    sha256 = "06ygv8q2zjqsnrid1302yrlhhvb8ik48nq6n0higk3i1mdc8r0dg";
   };
+
+
   isLibrary = false;
   isExecutable = true;
+  libraryHaskellDepends = [
+    aeson ansi-terminal async atomic-write base bytestring
+    bytestring-lexing bzlib-conduit conduit conduit-algorithms
+    conduit-extra configurator containers convertible data-default
+    deepseq diagrams-core diagrams-lib diagrams-svg directory
+    double-conversion edit-distance either errors exceptions extra
+    file-embed filemanip filepath gitrev hashable hashtables hostname
+    http-client http-conduit inline-c inline-c-cpp IntervalMap MissingH
+    mtl network optparse-applicative parsec primitive process regex
+    resourcet safe safeio stm stm-chans stm-conduit strict tar
+    tar-conduit template-haskell text time transformers unix
+    unix-compat unliftio unliftio-core vector vector-algorithms yaml
+    zlib
+  ];
+  libraryToolDepends = [ hpack ];
   executableHaskellDepends = [
-    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
-    atomic-write bytestring-lexing gitrev regex safeio
-    conduit-algorithms
-    conduit conduit-combinators conduit-extra configurator containers
-    convertible data-default deepseq directory double-conversion
-    edit-distance either errors extra file-embed filemanip filepath hashable
-    hashtables http-client http-conduit IntervalMap MissingH mtl
-    network old-locale optparse-applicative parallel parsec primitive
-    process random resourcet stm stm-chans stm-conduit strict tar
-    template-haskell text time transformers unix vector
-    vector-algorithms yaml zlib
-    pkgs.wget
-    pkgs.samtools
-    pkgs.bwa
-    python
-    makeWrapper
+    aeson ansi-terminal async atomic-write base bytestring
+    bytestring-lexing bzlib-conduit conduit conduit-algorithms
+    conduit-extra configurator containers convertible data-default
+    deepseq diagrams-core diagrams-lib diagrams-svg directory
+    double-conversion edit-distance either errors exceptions extra
+    file-embed filemanip filepath gitrev hashable hashtables hostname
+    http-client http-conduit inline-c inline-c-cpp IntervalMap MissingH
+    mtl network optparse-applicative parsec primitive process regex
+    resourcet safe safeio stm stm-chans stm-conduit strict tar
+    tar-conduit template-haskell text time transformers unix
+    unix-compat unliftio unliftio-core vector vector-algorithms yaml
+    zlib
   ];
   testHaskellDepends = [
-    aeson ansi-terminal async base bytestring bzlib bzlib-conduit
-    atomic-write bytestring-lexing gitrev regex safeio
-    conduit-algorithms
-    conduit conduit-combinators conduit-extra configurator containers
-    convertible data-default deepseq directory double-conversion
-    edit-distance either errors extra file-embed filemanip filepath hashable
-    hashtables http-client http-conduit HUnit IntervalMap MissingH mtl
-    network old-locale optparse-applicative parallel parsec primitive
-    process QuickCheck random resourcet stm stm-chans stm-conduit
-    strict tar template-haskell test-framework test-framework-hunit
-    test-framework-quickcheck2 test-framework-th text time transformers
-    unix vector vector-algorithms yaml zlib
+    aeson ansi-terminal async atomic-write base bytestring
+    bytestring-lexing bzlib-conduit conduit conduit-algorithms
+    conduit-extra configurator containers convertible data-default
+    deepseq diagrams-core diagrams-lib diagrams-svg directory
+    double-conversion edit-distance either errors exceptions extra
+    file-embed filemanip filepath gitrev hashable hashtables hostname
+    http-client http-conduit HUnit inline-c inline-c-cpp IntervalMap
+    MissingH mtl network optparse-applicative parsec primitive process
+    QuickCheck regex resourcet safe safeio stm stm-chans stm-conduit
+    strict tar tar-conduit template-haskell test-framework
+    test-framework-hunit test-framework-quickcheck2 test-framework-th
+    text time transformers unix unix-compat unliftio unliftio-core
+    vector vector-algorithms yaml zlib
   ];
-  configureFlags = "-f-embed";
-  license = stdenv.lib.licenses.mit;
+  benchmarkHaskellDepends = [
+    aeson ansi-terminal async atomic-write base bytestring
+    bytestring-lexing bzlib-conduit conduit conduit-algorithms
+    conduit-extra configurator containers convertible criterion
+    data-default deepseq diagrams-core diagrams-lib diagrams-svg
+    directory double-conversion edit-distance either errors exceptions
+    extra file-embed filemanip filepath gitrev hashable hashtables
+    hostname http-client http-conduit HUnit inline-c inline-c-cpp
+    IntervalMap MissingH mtl network optparse-applicative parsec
+    primitive process regex resourcet safe safeio stm stm-chans
+    stm-conduit strict tar tar-conduit template-haskell text time
+    transformers unix unix-compat unliftio unliftio-core vector
+    vector-algorithms yaml zlib
+  ];
 
-  prePatch = ''
+  preConfigure = ''
+    make NGLess/Dependencies/Versions.hs
     hpack
   '';
 
-  buildTools = [ hpack ];
-
-  postBuild = ''
-    make modules
-  '';
-
-  postInstall = ''
-    mkdir -p $out/share/ngless/data
-    mkdir -p $out/share/ngless/bin
-    cp -pr Modules $out/share/ngless/data
-    wrapProgram $out/bin/ngless \
-        --set NGLESS_SAMTOOLS_BIN ${pkgs.samtools}/bin/samtools \
-        --set NGLESS_BWA_BIN ${pkgs.bwa}/bin/bwa
-  '';
+  homepage = "https://github.com/ngless-toolkit/ngless#readme";
+  license = stdenv.lib.licenses.mit;
 }
